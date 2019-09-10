@@ -1,6 +1,6 @@
 
 let values = [];
-var item="Bubble sort";
+var item="Selection sort";
 let i = 0;
 let j = 0;
 let num = 0;
@@ -10,10 +10,11 @@ function setup() {
     background(200);
     sel = createSelect();
     sel.position(10,50);
+    sel.option('Selection sort');
     sel.option('Bubble sort');
     sel.option('Insertion sort');
     sel.option('Merge sort');
-    sel.option('Selection sort');
+
     sel.changed(mySelectEvent);
 
 
@@ -40,27 +41,6 @@ function draw(){
 let swapped = new Array();
 var len = values.length;
 
-if(select) {
-  console.log("SELECT");
-  if (i < values.length) {
-    var j_min = i;
-    for (var j = i + 1; j < len; j++) {
-        if (values[j] < values[j_min]) {
-            j_min = j;
-            swapped.push(j)
-        }
-    }
-    if (j_min !== i) {
-        swap(values, i, j_min);
-    }
-  } else {
-    console.log("finished");
-    console.log("size is " + width,0,0);
-    noLoop();
-  }
-
-}
-
   if(item== "Bubble sort"){
     bubble();
   }
@@ -71,27 +51,43 @@ if(select) {
     mergeSort();
   }
   if(item == "Selection sort"){
-    selsort();
+    selSort();
   }
 }
 
-function insertSort(){
+function selSort(){
   background(0);
   new p5.Table([3]);
 
+if (i < values.length && i%1==0) {
   for(var z = 0; z < values.length-i-1; z++) {
-    let temp = values[z];
-    let j = z - 1;
-    while (j >= 0 && values[j] > temp) {
-      values[j + 1] = values[j];
-      j--;
+      var min = z;
+      for(var j = z + 1; j < values.length; j++) {
+        if(values[j] < values[min]) {
+          min = j;
+        }
+      }
+      if(z !== min) {
+        swap(values, z, min);
+        num+= 3;
+      }
     }
-    values[j + 1] = temp;
-  }
-  return values;
+}else{
+  console.log("finished");
+  noLoop();
 }
+z++;
+document.getElementById('swaps').innerHTML = "swaps:"+num+"lines sorted:"+values.length;
 
+    //return array;
+    for (let i = 0; i < values.length; i++) {
+      stroke(255);
+      //strokeWeight(0);
+      line(i,height, i, height - values[i] );
+      rotate(PI/3);
 
+    }
+  }
 
 
 
@@ -137,3 +133,46 @@ function swap(arr, a, b) {
   arr[a] = arr[b];
   arr[b] = temp;
 }
+
+
+
+/*
+function insertSort(){
+  background(0);
+  new p5.Table([3]);
+
+  for(var z = 0; z < values.length-i-1; z++) {
+    let temp = values[z];
+    let j = z - 1;
+    while (j >= 0 && values[j] > temp) {
+      values[j + 1] = values[j];
+      j--;
+    }
+    values[j + 1] = temp;
+  }
+  return values;
+}
+
+
+
+if(select) {
+  console.log("SELECT");
+  if (i < values.length) {
+    var j_min = i;
+    for (var j = i + 1; j < len; j++) {
+        if (values[j] < values[j_min]) {
+            j_min = j;
+            swapped.push(j)
+        }
+    }
+    if (j_min !== i) {
+        swap(values, i, j_min);
+    }
+  } else {
+    console.log("finished");
+    console.log("size is " + width,0,0);
+    noLoop();
+  }
+
+}
+*/
